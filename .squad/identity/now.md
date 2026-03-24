@@ -1,9 +1,9 @@
 ---
-updated_at: 2026-03-24T12:27:34.978Z
-focus_area: Initial setup
+updated_at: 2026-03-24T13:05:26Z
+focus_area: Squad setup
 active_issues: []
 ---
 
 # What We're Focused On
 
-Getting started. Updated by coordinator at session start.
+Getting the Squad roster and support files into a clean, working state.

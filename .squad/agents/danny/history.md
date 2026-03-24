@@ -7,6 +7,6 @@
 
 ## Learnings
 
-- Shared Squad state is append-only, and decisions merge through the inbox before they become canonical.
+- The repo split needs careful sequencing so frontend, backend, data, and deploy work can land independently.
 - All `.squad/` paths resolve from the team root provided by the Coordinator.
 - The shared decision log stays append-only and is merged through Scribe.

@@ -7,6 +7,6 @@
 
 ## Learnings
 
-- Shared Squad state is append-only, and decisions merge through the inbox before they become canonical.
+- PostgreSQL schema design and full-text search are central to the Smart SKU model.
 - All `.squad/` paths resolve from the team root provided by the Coordinator.
 - The shared decision log stays append-only and is merged through Scribe.

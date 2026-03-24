@@ -7,6 +7,6 @@
 
 ## Learnings
 
-- Shared Squad state is append-only, and decisions merge through the inbox before they become canonical.
+- Backend work needs stable REST contracts and careful auth/payment boundaries.
 - All `.squad/` paths resolve from the team root provided by the Coordinator.
 - The shared decision log stays append-only and is merged through Scribe.

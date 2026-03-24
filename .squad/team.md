@@ -1,18 +1,25 @@
-# Squad Team
+# Team Roster
 
-> CTv05monorepo
+> Modern refactor of an ecommerce platform for a wholesale distributor of cellphone repair parts, using Smart SKU and a relational database. The codebase is currently a monorepo and will eventually split into separate frontend and backend repositories.
 
 ## Coordinator
 
 | Name | Role | Notes |
 |------|------|-------|
-| Squad | Coordinator | Routes work, enforces handoffs and reviewer gates. |
+| Squad | Coordinator | Routes work, enforces handoffs and reviewer gates. Does not generate domain artifacts. |
 
 ## Members
 
 | Name | Role | Charter | Status |
 |------|------|---------|--------|
-
+| Danny | Lead | `.squad/agents/danny/charter.md` | ✅ Active |
+| Rusty | Frontend Dev | `.squad/agents/rusty/charter.md` | ✅ Active |
+| Linus | Backend Dev | `.squad/agents/linus/charter.md` | ✅ Active |
+| Saul | Tester | `.squad/agents/saul/charter.md` | ✅ Active |
+| Basher | DevOps | `.squad/agents/basher/charter.md` | ✅ Active |
+| Yen | Database / Data Specialist | `.squad/agents/yen/charter.md` | ✅ Active |
+| Scribe | Session Logger | `.squad/agents/scribe/charter.md` | 📋 Silent |
+| Ralph | Work Monitor | — | 🔄 Monitor |
 
 ## Coding Agent
 
@@ -49,5 +56,7 @@
 
 ## Project Context
 
-- **Project:** CTv05monorepo
-- **Created:** 2026-03-24
+- **Owner:** Copilot
+- **Stack:** Strict TypeScript, Next.js, Tailwind CSS, TanStack Query, Zustand, Prisma, Zod, Clerk or NextAuth 5, Stripe, Neon/PostgreSQL, tRPC, Resend, S3, GitHub Actions, Vercel, Vitest, React Testing Library, Playwright or Jest, PostgreSQL full-text search, Turbopack.
+- **Description:** Modern refactor of an ecommerce platform for a wholesale distributor of cellphone repair parts, using Smart SKU and a relational database. The codebase is currently a monorepo and will eventually split into separate frontend and backend repositories.
+- **Created:** 2026-03-24T13:05:26Z
