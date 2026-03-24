@@ -1,0 +1,293 @@
+<!-- public/index.html -->
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CellTech Backend Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header class="header">
+      <h1>🚀 CellTech Wholesale Backend</h1>
+      <p>Test Dashboard for API Endpoints</p>
+      <div class="status-bar">
+        <span id="apiStatus" class="status unknown">● Checking connection...</span>
+        <span id="dbInfo" class="info"></span>
+      </div>
+    </header>
+
+```
+<!-- Navigation Tabs -->
+<nav class="tabs">
+  <button class="tab-button active" data-tab="search">Search Parts</button>
+  <button class="tab-button" data-tab="inventory">Inventory Lookup</button>
+  <button class="tab-button" data-tab="compatibility">Compatibility</button>
+  <button class="tab-button" data-tab="brands">Brands & Models</button>
+  <button class="tab-button" data-tab="docs">API Docs</button>
+</nav>
+
+<!-- Tab Content -->
+<main class="content">
+
+  <!-- 1. SEARCH PARTS TAB -->
+  <section id="search" class="tab-content active">
+    <h2>🔍 Search Parts by Device</h2>
+    <div class="form-group">
+      <label for="deviceName">Device Name:</label>
+      <input 
+        id="deviceName" 
+        type="text" 
+        placeholder="e.g., iPhone 17 Pro Max, Galaxy S25 Ultra, Z Fold 6"
+        class="input-large"
+      >
+      <small>Search is case-insensitive and supports partial matches</small>
+    </div>
+
+    <button class="btn btn-primary" id="searchBtn">Search Parts</button>
+
+    <div id="searchResults" class="results-container hidden">
+      <div class="results-header">
+        <h3>Results</h3>
+        <button class="btn-small" id="exportSearchBtn">📋 Copy JSON</button>
+      </div>
+      <div id="searchTable"></div>
+      <pre id="searchJson" class="json-output hidden"></pre>
+    </div>
+  </section>
+
+  <!-- 2. INVENTORY LOOKUP TAB -->
+  <section id="inventory" class="tab-content">
+    <h2>📦 Inventory Lookup</h2>
+    <div class="form-group">
+      <label for="skuId">SKU ID:</label>
+      <input 
+        id="skuId" 
+        type="text" 
+        placeholder="e.g., IF17PrM-3-MOD-BAT, SGP25U-3-MOD-BAT"
+        class="input-large"
+      >
+      <small>Enter the complete SKU to get detailed part information</small>
+    </div>
+
+    <button class="btn btn-primary" id="inventoryBtn">Lookup Part</button>
+
+    <div id="inventoryResults" class="results-container hidden">
+      <div class="results-header">
+        <h3>Part Details</h3>
+        <button class="btn-small" id="exportInventoryBtn">📋 Copy JSON</button>
+      </div>
+      <div id="inventoryDetail"></div>
+      <pre id="inventoryJson" class="json-output hidden"></pre>
+    </div>
+  </section>
+
+  <!-- 3. COMPATIBILITY TAB -->
+  <section id="compatibility" class="tab-content">
+    <h2>🔗 Cross-Compatibility Checker</h2>
+    <div class="form-group">
+      <label for="compatSku">SKU ID:</label>
+      <input 
+        id="compatSku" 
+        type="text" 
+        placeholder="e.g., IF13-14-1-DIS-OLED"
+        class="input-large"
+      >
+      <small>Find which devices are compatible with this part</small>
+    </div>
+
+    <button class="btn btn-primary" id="compatBtn">Check Compatibility</button>
+
+    <div id="compatResults" class="results-container hidden">
+      <div class="results-header">
+        <h3>Compatible Devices</h3>
+        <button class="btn-small" id="exportCompatBtn">📋 Copy JSON</button>
+      </div>
+      <div id="compatTable"></div>
+      <pre id="compatJson" class="json-output hidden"></pre>
+    </div>
+  </section>
+
+  <!-- 4. BRANDS & MODELS TAB -->
+  <section id="brands" class="tab-content">
+    <h2>🏢 Brands & Models</h2>
+    
+    <div class="section-box">
+      <h3>All Brands</h3>
+      <button class="btn btn-secondary" id="brandsBtn">Load Brands</button>
+      <div id="brandsList" class="results-container hidden">
+        <div class="results-header">
+          <h4>Available Brands</h4>
+          <button class="btn-small" id="exportBrandsBtn">📋 Copy JSON</button>
+        </div>
+        <div id="brandsTable"></div>
+        <pre id="brandsJson" class="json-output hidden"></pre>
+      </div>
+    </div>
+
+    <div class="section-box">
+      <h3>Models by Brand</h3>
+      <div class="form-group">
+        <label for="brandSelect">Select Brand:</label>
+        <select id="brandSelect" class="select-large">
+          <option value="">Loading brands...</option>
+        </select>
+      </div>
+      <button class="btn btn-secondary" id="modelsBtn">Load Models</button>
+      <div id="modelsList" class="results-container hidden">
+        <div class="results-header">
+          <h4>Models</h4>
+          <button class="btn-small" id="exportModelsBtn">📋 Copy JSON</button>
+        </div>
+        <div id="modelsTable"></div>
+        <pre id="modelsJson" class="json-output hidden"></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. API DOCS TAB -->
+  <section id="docs" class="tab-content">
+    <h2>📚 API Documentation</h2>
+    <div class="docs-container">
+      <div class="doc-item">
+        <h3>GET /api/parts</h3>
+        <p><strong>Description:</strong> Search for parts by device name</p>
+        <p><strong>Query Parameters:</strong></p>
+        <code>?device=iPhone17PrM</code>
+        <p><strong>Response:</strong></p>
+        <pre><code>{
+```
+
+“success”: true,
+“device”: “iPhone 17 Pro Max”,
+“count”: 3,
+“parts”: [
+{
+“skuId”: “IF17PrM-3-MOD-BAT”,
+“partName”: “Replacement Battery”,
+“category”: “Battery”,
+“price”: 25.00,
+“stock”: 150,
+“quality”: “Premium”
+}
+]
+}</code></pre>
+</div>
+
+```
+      <div class="doc-item">
+        <h3>GET /api/inventory/:skuId</h3>
+        <p><strong>Description:</strong> Get detailed information about a specific part</p>
+        <p><strong>Example:</strong></p>
+        <code>GET /api/inventory/IF17PrM-3-MOD-BAT</code>
+        <p><strong>Response:</strong></p>
+        <pre><code>{
+```
+
+“success”: true,
+“part”: {
+“skuId”: “IF17PrM-3-MOD-BAT”,
+“partName”: “Replacement Battery”,
+“category”: “Battery”,
+“price”: 25.00,
+“stock”: 150,
+“quality”: “Premium”,
+“specifications”: “Lithium-Ion, Adhesive…”,
+“compatibleModels”: []
+}
+}</code></pre>
+</div>
+
+```
+      <div class="doc-item">
+        <h3>GET /api/compatibility/:skuId</h3>
+        <p><strong>Description:</strong> Get all devices compatible with a specific SKU</p>
+        <p><strong>Example:</strong></p>
+        <code>GET /api/compatibility/IF13-14-1-DIS-OLED</code>
+        <p><strong>Response:</strong></p>
+        <pre><code>{
+```
+
+“success”: true,
+“skuId”: “IF13-14-1-DIS-OLED”,
+“compatibleModels”: [
+{
+“id”: 5,
+“modelNumber”: “A2482”,
+“marketingName”: “iPhone 13”
+},
+{
+“id”: 6,
+“modelNumber”: “A2649”,
+“marketingName”: “iPhone 14”
+}
+]
+}</code></pre>
+</div>
+
+```
+      <div class="doc-item">
+        <h3>GET /api/brands</h3>
+        <p><strong>Description:</strong> Get all brands in the system</p>
+        <p><strong>Response:</strong></p>
+        <pre><code>{
+```
+
+“success”: true,
+“count”: 2,
+“brands”: [
+{ “id”: 1, “name”: “Apple” },
+{ “id”: 2, “name”: “Samsung” }
+]
+}</code></pre>
+</div>
+
+```
+      <div class="doc-item">
+        <h3>GET /api/models</h3>
+        <p><strong>Description:</strong> Get all models, optionally filtered by brand</p>
+        <p><strong>Query Parameters:</strong></p>
+        <code>?brandId=1</code>
+        <p><strong>Response:</strong></p>
+        <pre><code>{
+```
+
+“success”: true,
+“count”: 6,
+“models”: [
+{
+“id”: 1,
+“brandId”: 1,
+“modelNumber”: “A3257”,
+“marketingName”: “iPhone 17 Pro Max”,
+“releaseYear”: 2025
+}
+]
+}</code></pre>
+</div>
+</div>
+</section>
+
+```
+</main>
+
+<!-- Footer -->
+<footer class="footer">
+  <p>CellTech Backend © 2025 | <a href="https://github.com">GitHub</a> | <a href="#">API Docs</a></p>
+</footer>
+```
+
+  </div>
+
+  <script src="app.js"></script>
+
+</body>
+</html>
+
+
+
+

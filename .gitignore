@@ -1,0 +1,21 @@
+# Dependencies and build output
+**/node_modules/
+**/.next/
+**/dist/
+**/build/
+**/coverage/
+**/.turbo/
+**/.cache/
+
+# Environment files
+**/.env
+**/.env.local
+**/.env.*.local
+
+# Logs and OS files
+**/*.log
+**/.DS_Store
+**/Thumbs.db
+
+# Deployment artifacts
+**/.vercel/
