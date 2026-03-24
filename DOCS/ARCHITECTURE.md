@@ -11,7 +11,7 @@ This document explains the architectural decisions, how the pieces fit together,
 ```
 ┌────────────────────────────────────────────────────────────┐
 │  FRONTEND — Next.js 15 App Router                          │
-│  CellTech/ecomCell/ecomCell/                               │
+│  celltech-frontend/                                        │
 │                                                            │
 │  app/layout.tsx ← Persistent shell (Nav + Footer)          │
 │  app/page.tsx   ← Home (5 sections, slimmed from 14)       │
@@ -30,7 +30,7 @@ This document explains the architectural decisions, how the pieces fit together,
                        ▼
 ┌────────────────────────────────────────────────────────────┐
 │  BACKEND — Express.js on Vercel                            │
-│  CellTech/Test/                                            │
+│  celltech-backend/                                         │
 │                                                            │
 │  server.ts       ← 16 API endpoints                        │
 │  schema.prisma   ← Prisma schema (PostgreSQL)              │
@@ -135,7 +135,7 @@ Base URL: `process.env.NEXT_PUBLIC_API_URL || 'https://celltech-backend.vercel.a
 
 ---
 
-## 4. Backend Architecture (CellTech/Test/)
+## 4. Backend Architecture (celltech-backend/)
 
 ### Current Schema (Prisma)
 

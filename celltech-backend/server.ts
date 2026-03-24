@@ -1,4 +1,4 @@
-// src/server.ts
+// celltech-backend/server.ts
 import express, { Express, Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import { PrismaClient } from '@prisma/client';

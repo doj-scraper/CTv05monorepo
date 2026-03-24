@@ -9,7 +9,7 @@ B2B wholesale mobile repair parts platform. A catalog-first, dark-themed Next.js
 ## Quick Start
 
 ```bash
-cd CellTech/ecomCell/ecomCell
+cd celltech-frontend
 npm install
 npm run dev
 ```
@@ -22,30 +22,30 @@ Open [http://localhost:3000](http://localhost:3000).
 
 ## Repository Map
 
-This project lives inside a monorepo at `CellTech/`:
+This project lives inside the repository root:
 
 ```
-CellTech/
-├── Test/                           ← Backend (Express + Prisma + Neon PostgreSQL)
+.
+├── celltech-backend/               ← Backend (Express + Prisma + Neon PostgreSQL)
 │   ├── server.ts                   ← Express API (16 endpoints)
 │   ├── schema.prisma               ← Database schema (Brand→Model→Inventory)
 │   ├── seed.ts                     ← Seed script for sample data
 │   └── vercel.json                 ← Backend deployment config
 │
-└── ecomCell/ecomCell/              ← Frontend (this directory)
-    ├── app/                        ← Next.js App Router
-    │   ├── layout.tsx              ← Root layout (Nav + Footer persistent shell)
-    │   ├── page.tsx                ← Home (5 sections: Hero, Categories, Products, Partners, CTA)
-    │   ├── about/page.tsx          ← About (Quality, Shipping, Testimonials)
-    │   ├── catalog/page.tsx        ← Parts catalog (filterable product grid)
-    │   ├── inventory/page.tsx      ← Inventory table (Brand/Model filtering)
-    │   ├── product/[skuId]/page.tsx← Product detail page (gallery, fitment, specs, add-to-cart)
-    │   ├── quote/page.tsx          ← Request a quote
-    │   ├── support/page.tsx        ← Support & FAQ
-    │   ├── dashboard/page.tsx      ← Account dashboard
-    │   ├── not-found.tsx           ← 404 page
-    │   └── globals.css             ← Theme variables, utility classes, overlays
-    ├── components/
+├── celltech-frontend/              ← Frontend (this directory)
+│   ├── app/                        ← Next.js App Router
+│   │   ├── layout.tsx              ← Root layout (Nav + Footer persistent shell)
+│   │   ├── page.tsx                ← Home (5 sections: Hero, Categories, Products, Partners, CTA)
+│   │   ├── about/page.tsx          ← About (Quality, Shipping, Testimonials)
+│   │   ├── catalog/page.tsx        ← Parts catalog (filterable product grid)
+│   │   ├── inventory/page.tsx      ← Inventory table (Brand/Model filtering)
+│   │   ├── product/[skuId]/page.tsx← Product detail page (gallery, fitment, specs, add-to-cart)
+│   │   ├── quote/page.tsx          ← Request a quote
+│   │   ├── support/page.tsx        ← Support & FAQ
+│   │   ├── dashboard/page.tsx      ← Account dashboard
+│   │   ├── not-found.tsx           ← 404 page
+│   │   └── globals.css             ← Theme variables, utility classes, overlays
+│   ├── components/
     │   ├── navigation.tsx          ← Persistent sticky nav (Catalog, Inventory, About, Quote, Support, Account)
     │   ├── footer-section.tsx      ← Multi-column footer (contact, hours, social)
     │   ├── hero-section.tsx        ← Landing hero (pinned 100vh)

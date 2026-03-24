@@ -1,4 +1,4 @@
-// prisma/seed.ts
+// celltech-backend/seed.ts
 import { PrismaClient, QualityGrade } from '@prisma/client';
 
 const prisma = new PrismaClient();

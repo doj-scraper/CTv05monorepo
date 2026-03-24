@@ -24,7 +24,7 @@ CellTech/
 
 ---
 
-## 2. Repository Layout (as of 2026-03-24)
+## 2. Repository Layout (as of 2026-03-24) NOTE: THE BELOW IS OUTDATED AS OF 1:00 AM 3-25-2026 WHY? I (THE DEVELOPER) HAVE MOVED ALL DOCUMENTATION TO PARENT DIRECTORY FOLDER NAMED DOCUMENTS
 
 ```
 ecomCell/ecomCell/               ← Project root (package.json lives here)
