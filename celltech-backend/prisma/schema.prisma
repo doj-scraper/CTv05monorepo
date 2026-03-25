@@ -1,0 +1,201 @@
+// celltech-backend/prisma/schema.prisma
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// --- ENUMS ---
+enum QualityGrade {
+  OEM
+  Premium
+  Aftermarket
+  U           // Unknown/Used
+  NA          // Not Applicable
+}
+
+enum Role {
+  BUYER
+  ADMIN
+}
+
+enum OrderStatus {
+  PENDING
+  PAID
+  SHIPPED
+  DELIVERED
+  CANCELLED
+  REFUNDED
+}
+
+// --- DEVICE HIERARCHY (4 LEVELS) ---
+
+model Brand {
+  id         Int         @id @default(autoincrement())
+  name       String      @unique
+  
+  modelTypes ModelType[]
+}
+
+model ModelType {
+  id          Int          @id @default(autoincrement())
+  brandId     Int
+  name        String       // e.g., "iPhone", "Galaxy S", "Galaxy Z"
+  
+  brand       Brand        @relation(fields: [brandId], references: [id])
+  generations Generation[]
+  
+  @@unique([brandId, name])
+}
+
+model Generation {
+  id           Int       @id @default(autoincrement())
+  modelTypeId  Int
+  name         String    // e.g., "17 Pro Max", "S25 Ultra"
+  releaseYear  Int?
+  
+  modelType    ModelType @relation(fields: [modelTypeId], references: [id])
+  variants     Variant[]
+  
+  @@unique([modelTypeId, name])
+}
+
+model Variant {
+  id             Int                @id @default(autoincrement())
+  generationId   Int
+  modelNumber    String             @unique
+  marketingName  String             // Required: full device name
+  colorway       String?
+  storage        String?
+  
+  generation     Generation         @relation(fields: [generationId], references: [id])
+  inventory      Inventory[]
+  compatibilities CompatibilityMap[]
+}
+
+// --- CATALOG ---
+
+model Category {
+  id        Int         @id @default(autoincrement())
+  name      String      @unique
+  
+  inventory Inventory[]
+}
+
+model Inventory {
+  skuId          String           @id
+  variantId      Int?             // Optional: null for cross-compatible parts
+  categoryId     Int
+  partName       String           // Required
+  qualityGrade   QualityGrade     @default(Aftermarket)
+  wholesalePrice Int              @default(0) // Stored in cents
+  stockLevel     Int              @default(0)
+
+  variant         Variant?          @relation(fields: [variantId], references: [id])
+  category        Category          @relation(fields: [categoryId], references: [id])
+  specifications  Specification[]
+  compatibilities CompatibilityMap[]
+  cartItems       Cart[]
+  orderLines      OrderLine[]
+}
+
+model Specification {
+  id     Int    @id @default(autoincrement())
+  skuId  String
+  label  String // e.g., "Capacity", "Type", "Rear"
+  value  String // e.g., "4685 mAh", "USB-C", "48MP"
+  
+  inventory Inventory @relation(fields: [skuId], references: [skuId])
+  
+  @@unique([skuId, label])
+}
+
+model CompatibilityMap {
+  skuId     String
+  variantId Int
+
+  inventory Inventory @relation(fields: [skuId], references: [skuId])
+  variant   Variant   @relation(fields: [variantId], references: [id])
+
+  @@id([skuId, variantId])
+}
+
+// --- AUTH ---
+
+model User {
+  id           String    @id @default(cuid())
+  email        String    @unique
+  passwordHash String
+  role         Role      @default(BUYER)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  
+  accounts     Account[]
+  sessions     Session[]
+  carts        Cart[]
+  orders       Order[]
+}
+
+model Account {
+  id                String @id @default(cuid())
+  userId            String
+  provider          String
+  providerAccountId String
+  
+  user User @relation(fields: [userId], references: [id])
+  
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  userId    String
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  
+  user User @relation(fields: [userId], references: [id])
+}
+
+// --- COMMERCE ---
+
+model Cart {
+  id       String   @id @default(cuid())
+  userId   String
+  skuId    String
+  quantity Int      @default(1)
+  addedAt  DateTime @default(now())
+  
+  user      User      @relation(fields: [userId], references: [id])
+  inventory Inventory @relation(fields: [skuId], references: [skuId])
+  
+  @@unique([userId, skuId])
+}
+
+model Order {
+  id                    String      @id @default(cuid())
+  userId                String
+  status                OrderStatus @default(PENDING)
+  totalCents            Int
+  stripePaymentIntentId String?     @unique
+  createdAt             DateTime    @default(now())
+  updatedAt             DateTime    @updatedAt
+  
+  user  User        @relation(fields: [userId], references: [id])
+  lines OrderLine[]
+}
+
+model OrderLine {
+  id                  String @id @default(cuid())
+  orderId             String
+  skuId               String
+  quantity            Int
+  unitPriceAtPurchase Int    // Price snapshot at time of purchase
+  
+  order     Order     @relation(fields: [orderId], references: [id])
+  inventory Inventory @relation(fields: [skuId], references: [skuId])
+}
